@@ -1,0 +1,62 @@
+.state-icon {
+    left: -5px;
+}
+.list-group-item-primary {
+    color: rgb(255, 255, 255);
+    background-color: rgb(66, 139, 202);
+}
+
+.container {
+  width: 70%;
+  margin-top: 50px;
+}
+
+.add-todo-bar {
+  margin: 20px auto;
+  text-align: center;
+}
+
+#todo-input {
+  height: 35px;
+  width: 27%;
+}
+
+.todo-list-container {
+  width:50%;
+  margin: 50px auto;
+  height: 200px;
+  overflow: scroll;
+}
+
+.complete-option-container {
+  width:40%;
+  margin: 0px auto;
+  height: 50px;
+}
+
+.option-container {
+  width:50%;
+  margin: 0px auto;
+}
+
+.complete-list-container {
+  height: 200px;
+  margin: 0px auto;
+  overflow: scroll;
+  width: 40%;
+}
+
+.option {
+  float:right;
+}
+
+.complete-btn {
+  text-align: center;
+}
+
+.complete-task {
+  margin-top: -90px;
+  margin: 1px auto;
+  display: none;
+  margin-bottom: 100px;
+}
