@@ -15,10 +15,10 @@ function add() {
     // Clear the input
     input.value = '';
     // TODO: refocus the element
+    input.focus();
 }
 
 function render(todo) {
-    console.log(todo);
     const listItem = document.createElement('li');
     const listItemText = document.createTextNode(todo.title);
     listItem.appendChild(listItemText);
