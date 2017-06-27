@@ -1,5 +1,16 @@
 const server = io('http://localhost:3003/');
 
+// See Todo's list offline
+if (localStorage.getItem('isDisconnected') === 'true') {
+  const db = JSON.parse(localStorage.getItem('db'));
+
+  $('#todo-list').empty();
+  $('#complete-todo-list').empty();
+
+  db.todo.forEach((todo) => render(todo));
+  db.complete.forEach((todo) => renderCompletedTask(todo));
+}
+
 // NOTE: These are all our globally scoped functions for interacting with the server
 // This function adds a new todo from the input
 function add() {
@@ -99,16 +110,38 @@ function renderCompletedTask(todo) {
 
 }
 
+// This function is to update localStorage when adding a new todo
+function addNewTodoToLocal(todos) {
+  let localDB = JSON.parse(localStorage.getItem('db'));
+  todos.forEach((todo) => localDB.todo.push(todo));
+  localStorage.setItem('db', JSON.stringify(localDB));
+}
+
 // NOTE: These are listeners for events from the server
 // This event is for (re)loading the entire list of todos from the server
 server.on('load', (t) => {
-    $('#todo-list').empty();
-    $('#complete-todo-list').empty();
-    t.todo.forEach((todo) => render(todo));
-    t.complete.forEach((todo) => renderCompletedTask(todo));
+    let db;
+
+    if (t) { // If server is connecting
+      db = t;
+      localStorage.setItem('db', JSON.stringify(t));
+      $('#todo-list').empty();
+      $('#complete-todo-list').empty();
+    } else { // If server is disconnected
+      db = JSON.parse(localStorage.getItem('db'));
+    }
+
+    db.todo.forEach((todo) => render(todo));
+    db.complete.forEach((todo) => renderCompletedTask(todo));
 });
 
 // This event is for adding a new todo
 server.on('add', (todos) => {
+    addNewTodoToLocal(todos);
     todos.forEach((todo) => render(todo));
+});
+
+// This event is to check if server is disconnected
+server.on('disconnect', () => {
+  localStorage.setItem('isDisconnected', 'true');
 });
